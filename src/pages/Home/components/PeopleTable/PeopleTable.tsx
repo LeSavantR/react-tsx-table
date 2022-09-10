@@ -3,14 +3,14 @@ import { addFavorite } from '@/redux';
 import { AppStore } from '@/redux/store';
 import { Checkbox } from '@mui/material';
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 export interface PeopleTableInterface {}
 
 const PeopleTable: React.FC<PeopleTableInterface> = () => {
-	const [ selectedPeople, setselectedPeople ] = React.useState<Person[]>([]);
+	const [ selectedPeople, setselectedPeople ] = useState<Person[]>([]);
 	const dispatch = useDispatch();
 
 	const storedPeople = useSelector((store: AppStore) => store.people)
@@ -72,7 +72,8 @@ const PeopleTable: React.FC<PeopleTableInterface> = () => {
 		setselectedPeople(storedFavorite)
 	}, [storedFavorite]);
 
-	return <DataGrid
+	return (
+		<DataGrid
 			rows={storedPeople}
 			columns={columns}
 			disableColumnSelector
@@ -81,7 +82,8 @@ const PeopleTable: React.FC<PeopleTableInterface> = () => {
 			pageSize={pageSize}
 			rowsPerPageOptions={[pageSize]}
 			getRowId={(row: any) => row.id}
-		/>;
+		/>
+	);
 };
 
 export default PeopleTable;
